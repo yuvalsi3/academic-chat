@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 import re
+import os
 from flask import Flask, request, jsonify, send_from_directory
 from flask import render_template
 
@@ -111,4 +112,5 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
