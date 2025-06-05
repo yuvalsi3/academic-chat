@@ -78,15 +78,6 @@ def generate_answer(user_question, data, chat_history):
     - You may assume the user is referring to the dataset provided. If no match is found for a user's request, politely state that no matching program was found.
     """
 
-    #     system_prompt = """
-# You are a helpful university advisor assistant.
-# Use only the provided university data. Do not invent any data not listed.
-# Answer in a short, polite and concise way.
-# Answer full answers depends on the question. When asking for available degrees, just answer list of the degrees without the requirements.
-# When providing the requirements, write the all options and their requirements and don't miss any requirement.
-# """
-
-
     full_prompt = f"User asked: {user_question}\n\nHere is university data:\n{context}"
     return call_groq(system_prompt, full_prompt, chat_history).strip()
 
