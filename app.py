@@ -59,8 +59,12 @@ def generate_answer(user_question, data, chat_history):
     else:
         context = ""
         for record in data:
-            context += "\nUniversity:\n"
+            context += "\nOption:\n"
             for key, value in record.items():
+                if key in ["Degree Schedule", "Tuition Fee"]:
+                    continue  # לא מציגים אותם בכלל
+                if pd.isna(value) or str(value).strip() in ["", "nan", "None", "no need", "No requirement"]:
+                    continue  # מדלגים על שדות ריקים
                 context += f"- {key}: {value}\n"
 
     system_prompt = """
@@ -71,21 +75,16 @@ def generate_answer(user_question, data, chat_history):
     Use only the provided university data for your answers. Do not invent or assume any information that is not explicitly present in the dataset.
 
     - If the user asks for available degrees at a specific institution, respond only with the list of degree names available at that institution. Do not include any requirements or admission details.
-    - If the user asks for the admission requirements of a specific degree (optionally within a university), return all available admission options for that degree and university. Present every available admission path, listing all requirements exactly as provided. Never omit any requirement field.
-    - If any data field is empty or missing for a specific option, you may display it as "No requirement" or "Not specified."
+    - If the user asks for the admission requirements of a specific degree (optionally within a university), return all available admission options for that degree and university. Number each option and Display each field on a new line
+     Present every available admission path, listing all requirements exactly as provided. Never omit any requirement field.
+    - When showing admission requirements, do NOT include the Degree Schedule (study duration) or Tuition Fee, unless the user specifically asks for them.
+    -Present only fields that have actual values in the data.If empty — fully omit that entire field. Do not display the field name at all.
     - If the user asks about study duration (degree schedule), extract and display the exact value from the 'Degree Schedule' field.
+    - Do not use bold, stars (**) or markdown. Just plain clean text.
+    -If the user asks for general recommendations or rankings not present in the data, politely explain that you can only provide factual data from the database, not personal advice or rankings.
     - Always keep your answers short, clear, polite, and well-formatted.
     - You may assume the user is referring to the dataset provided. If no match is found for a user's request, politely state that no matching program was found.
     """
-
-    #     system_prompt = """
-# You are a helpful university advisor assistant.
-# Use only the provided university data. Do not invent any data not listed.
-# Answer in a short, polite and concise way.
-# Answer full answers depends on the question. When asking for available degrees, just answer list of the degrees without the requirements.
-# When providing the requirements, write the all options and their requirements and don't miss any requirement.
-# """
-
 
     full_prompt = f"User asked: {user_question}\n\nHere is university data:\n{context}"
     return call_groq(system_prompt, full_prompt, chat_history).strip()
