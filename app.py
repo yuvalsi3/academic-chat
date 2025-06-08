@@ -2,7 +2,7 @@ import pandas as pd
 import requests
 import re
 import os
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify
 from flask import render_template
 
 
@@ -12,7 +12,7 @@ GROQ_API_KEY = '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'
 GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
 GROQ_MODEL = 'meta-llama/llama-4-scout-17b-16e-instruct'
 
-df = pd.read_csv("universities_clean.csv")
+df = pd.read_csv("universities.csv")
 session_state = {"current_university": None}
 
 
