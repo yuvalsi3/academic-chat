@@ -12,7 +12,7 @@ GROQ_API_KEY = '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'
 GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
 GROQ_MODEL = 'meta-llama/llama-4-scout-17b-16e-instruct'
 
-df = pd.read_csv("universities.csv")
+df = pd.read_csv("universities_clean.csv")
 session_state = {"current_university": None}
 
 
