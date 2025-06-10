@@ -121,6 +121,24 @@ function newChat() {
     chatHistory = [];
     document.getElementById("chat").innerHTML = "";
 }
+
+    window.onload = () => {
+    const welcomeMessage = `
+Hello! 👋 I'm your smart academic advisor.
+I'm here to help you explore universities and degrees in Israel.
+I provide reliable information about:
+
+- Available institutions and the degrees they offer
+- Admission requirements for each degree
+- Tuition fees and degree durations
+
+This way, you can compare options and understand what suits you best – based on real data.
+
+⚠️ Please note: This chatbot supports **English only**.
+    `;
+    appendMessage("bot", welcomeMessage.trim());
+};
+
 </script>
 
 </body>
